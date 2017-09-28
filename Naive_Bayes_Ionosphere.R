@@ -1,3 +1,7 @@
+#install.packages('e1071', dependencies = TRUE)
+#install.packages("mlbench")
+library(e1071)
+
 #Naive Bayes en Dataset mlbech.Ionosphere
 data(Ionosphere, package = "mlbench")
 
@@ -6,11 +10,20 @@ head(Ionosphere)
 #resumen de las columnas de Ionosphere
 summary(Ionosphere)
 
+#histograma de la variable V16
+hist( Ionosphere$V16, freq =FALSE)
+
+#generar un dataset desordenado
+IonosphereShuffle <- Ionosphere[sample(nrow(Ionosphere)),]
+
 #Train  Ionosphere 36 a 351
-model <- naiveBayes(Class ~ ., data = Ionosphere[36:nrow(Ionosphere),])
+model <- naiveBayes(Class ~ ., data = IonosphereShuffle[36:nrow(IonosphereShuffle),])
 
 #Test  Ionosphere 1 a 35
-pred <- predict(model, Ionosphere[1:35,])
+pred <- predict(model, IonosphereShuffle[1:35,])
 
 #Matriz de confusion
-table(pred, Ionosphere[1:35,]$Class)
+table(pred, IonosphereShuffle[1:35,]$Class)
+
+
+
